@@ -15,7 +15,7 @@ from scraper import WebScraper
 
 # Read Forbes dataset
 df = pd.read_csv('Forbes.csv', index_col = 0)
-data_length = 2 #len(df)
+data_length = len(df)
 
 # Set up the webdriver
 URL = "https://www.msci.com/our-solutions/esg-investing/esg-ratings/esg-ratings-corporate-search-tool/"
