@@ -1,63 +1,84 @@
-import time
+"""CSR HUB website Scrape
+
+This script allows the user to scrape the CSR ratings from the CSR HUB website
+of each of the Forbes 2020 2000 companies
+Website link: "https://www.csrhub.com/search/name/"
+
+This tool accepts Company's names list in comma separated value 
+file (.csv) format as input.
+
+This script requires that `pandas` be installed within the Python
+environment you are running this script in.
+
+The output is a .csv file with Company name and its corresponding CSR ratings
+"""
+
 import pandas as pd
 from time import sleep
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.chrome.options import Options
 from tqdm import tqdm 
-import scraper
 from scraper import WebScraper
 
-# Read Forbes dataset
+# Read input Forbes dataset
 df = pd.read_csv('Forbes.csv', index_col = 0)
-data_length = 2 #len(df)
+data_length = len(df)
 
-# Open Website 
-def start_website():
-    URL = "https://www.csrhub.com/search/name/"
-    bot = scraper.WebScraper(URL)
-    cookies_xpath = '//*[@id="body-content-holder"]/div[2]/div/span[2]/button'
-    bot.accept_cookies(cookies_xpath)
-    return bot, bot.driver
+def _append_dict() -> dict:
+    '''
+    Append the CSR dictionary with Company Name and its CSR score
+    
+    Returns
+    -------
+    dict
+        The CSR dictionary
+    '''
+    try:
+        csr_score = bot.find_element('//*[@id="wrapper"]/div[3]/section[3]/div[2]/table/tbody/tr[2]/td[2]')
+        csr['CSR_Ratings'].append(csr_score.text) 
+        company = bot.find_element('//*[@id="wrapper"]/div[3]/section[3]/div[2]/table/tbody/tr[2]/td[1]/a')
+        csr['CSR_Company'].append(company.text) 
+    
+    except NoSuchElementException:
+        print(f'Could not find company at location: {i}')
+        bot.append_empty_values(csr)
+    return csr 
 
-bot, driver = start_website()
+# Set up driver
+URL = "https://www.csrhub.com/search/name/"
+bot = WebScraper(URL)
+
+# Accept cookies
+cookies_xpath = '//*[@id="body-content-holder"]/div[2]/div/span[2]/button'
+bot.accept_cookies(cookies_xpath)
 
 #Scrape the website. Extract company names and their respective CSR score
-for i in tqdm(range(data_length)):
+i = 0
+progress_bar = tqdm(total=data_length)
+while i < data_length:
     csr = {'CSR_Company': [], 'CSR_Ratings' : []}
     delay = 2  # seconds
         
     try:
-        search_bar = bot.initialise_search_bar(df,i, xpath = '//*[@id="search_company_names_0"]')
+        search_bar = bot.send_request_to_search_bar(df,i, xpath = '//*[@id="search_company_names_0"]')
         search_bar.send_keys(Keys.RETURN)
-        time.sleep(1)  
-
-        try:
-            csr_score = driver.find_element_by_xpath('//*[@id="wrapper"]/div[3]/section[3]/div[2]/table/tbody/tr[2]/td[2]')
-            csr['CSR_Ratings'].append(csr_score.text) 
-            company = driver.find_element_by_xpath('//*[@id="wrapper"]/div[3]/section[3]/div[2]/table/tbody/tr[2]/td[1]/a')
-            csr['CSR_Company'].append(company.text) 
-        
-        except NoSuchElementException:
-            print(f'Could not find company at location: {i}')
-            bot.empty_append(csr) 
-
-    # If no element found, that means the page rejected your requests. You will restart the chromedriver
+        sleep(1)  
+        csr = _append_dict()
+         # Save the data into a csv file 
+        df1 = bot.convert_dict_to_csv(csr, 'csr_hub') 
+        i += 1
+    # If no element found, that means the page rejected your requests. You will restart the driver
     except NoSuchElementException:
         print('Restarting the driver')
-        i -= 1 
-        driver.quit()
-        time.sleep(120)
-        driver = start_website()
-        continue
+        bot.driver.quit()
+        sleep(120)
+        bot = WebScraper(URL)
+        bot.accept_cookies(cookies_xpath)
 
-    # Save the data into a csv file 
-    df1 = bot.convert_to_csv(csr, i, 'CSI1') 
+    sleep(0.1)
+    progress_bar.update(1)
+
+progress_bar.close()
             
     
 
