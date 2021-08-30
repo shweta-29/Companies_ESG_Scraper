@@ -1,4 +1,4 @@
-''' This module contains a class for scraping the websites. '''
+'''This module contains a class for scraping the websites.'''
 
 import pandas as pd
 from selenium import webdriver
@@ -16,6 +16,7 @@ from typing import Optional
 
 
 class WebScraper():
+
     '''
     This class is used to scrape a website.
 

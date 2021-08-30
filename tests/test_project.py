@@ -1,4 +1,4 @@
-''' This module contains a class to test the scraper module '''
+'''This module contains a class to test the scraper module'''
 import unittest
 import pandas as pd
 

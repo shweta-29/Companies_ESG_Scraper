@@ -87,7 +87,8 @@ class RdsUploader:
         df = pd.read_sql_table(table_name, self.engine)
         return df
 
-    def add_rows(self, df: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
+    @staticmethod
+    def add_rows(df: pd.DataFrame, df2: pd.DataFrame) -> pd.DataFrame:
         '''
         This function add rows from the Pandas DataFrame to the
         input Pandas DataFrame
@@ -102,7 +103,8 @@ class RdsUploader:
         df = df.append(df2, ignore_index=True)
         return df
 
-    def delete_row(self, df, labels) -> pd.DataFrame:
+    @staticmethod
+    def delete_row(df, labels) -> pd.DataFrame:
         '''
         This function deletes row from the Pandas DataFrame database
 

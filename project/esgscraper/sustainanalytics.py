@@ -1,5 +1,4 @@
-"""
-SustainAnalytics website Scrape
+"""SustainAnalytics website Scrape
 
 This script allows the user to scrape the companies' ESG ratings from the
 SustainAnalytics website
@@ -22,7 +21,7 @@ from .scraper import WebScraper
 
 
 def append_dict(temp: str) -> str:
-    ''' Append the SustainAnalytics dictionary with Company name, Industry
+    ''' Append the SustainAnalytics dictionary with Company name, Industry\
         Name, and its ESG Risk rating
 
     Parameters

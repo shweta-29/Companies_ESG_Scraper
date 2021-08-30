@@ -1,5 +1,4 @@
-"""
-S&P Global website Scrape
+""" S&P Global website Scrape
 
 This script allows the user to scrape the companies' ESG ratings from the S&P
 Global website
@@ -23,8 +22,8 @@ from .scraper import WebScraper
 
 
 def append_dict(temp: str) -> str:
-    ''' Append the dictionary with Company name, Industry, Country, Ticker
-     and ESG rating
+    ''' Append the dictionary with Company name, Industry, Country, Ticker\
+    and ESG rating
 
     Parameters
     ----------

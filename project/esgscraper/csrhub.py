@@ -1,5 +1,4 @@
-"""
-CSR HUB website Scrape
+""" CSR HUB website Scrape
 
 This script allows the user to scrape the companies' CSR ratings from
 the CSR HUB website. Website link: "https://www.csrhub.com/search/name/"
@@ -23,7 +22,6 @@ from .scraper import WebScraper
 
 def _append_dict() -> dict:
     ''' Append the CSR dictionary with Company Name and its CSR score
-
     Returns
     -------
     dict

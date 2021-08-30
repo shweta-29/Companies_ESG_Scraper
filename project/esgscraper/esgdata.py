@@ -1,5 +1,4 @@
-"""
-ESG data Scrape
+""" ESG data Scrape
 
 This script allows the user to scrape the ESG, CSR ratings and financial
 metrics of the companies from the following websites: SustainAnalytics,

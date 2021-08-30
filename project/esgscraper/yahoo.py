@@ -1,5 +1,4 @@
-"""
-Yahoo Finance website Scrape
+"""Yahoo Finance website Scrape
 
 This script allows the user to scrape the companies' ESG ratings from
 the Yahoo Finance website.
@@ -25,7 +24,7 @@ from .scraper import WebScraper
 
 def append_finance_data(temp: str, company_name: str) -> \
         str:
-    ''' Append the Yahoo Finance dictionary with each company's
+    ''' Append the Yahoo Finance dictionary with each company's\
         Financial statistics
 
     Parameters
@@ -114,9 +113,7 @@ def append_finance_data(temp: str, company_name: str) -> \
 
 
 def append_esg_data():
-    '''
-    Append the Yahoo Finance dictionary with each company's ESG rating
-    '''
+    '''Append the Yahoo Finance dictionary with each company's ESG rating'''
     try:
         xpath_button_esg = '//*[@id="quote-nav"]/ul/li[11]/a/span'
         bot.wait_element_to_load(xpath_button_esg)

@@ -74,7 +74,8 @@ for i in tqdm(range(data_length)):
     try:
         xpath = '//*[@id="_esgratingsprofile_esg-ratings-profile-header"]/div[2]/div[1]/div[2]/div'
         esg_score = bot.find_element(xpath)
-        company = bot.find_element('//*[@id="_esgratingsprofile_esg-ratings-profile-header"]/div[1]/div[1]') 
+        company = bot.find_element(
+            '//*[@id="_esgratingsprofile_esg-ratings-profile-header"]/div[1]/div[1]')
         temp = _append_dict(temp)
 
     except NoSuchElementException:
