@@ -9,10 +9,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.remote.webelement import WebElement  # type: ignore
+from selenium.webdriver.remote.webelement import WebElement
 from time import sleep
 import os
-from typing import Optional
 
 
 class WebScraper():
@@ -30,7 +29,7 @@ class WebScraper():
         '''
         self.URL = URL
         options = Options()
-        #options.add_argument("--headless")
+        # options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
         self.driver = webdriver.Chrome(options=options)
@@ -164,7 +163,7 @@ class WebScraper():
         return dictionary
 
     def find_element(self, xpath: str = None, class_name: str = None,
-                     multiple: bool = False) -> Optional[WebElement]:
+                     multiple: bool = False) -> WebElement:
         '''
         Given xpath or class name, this function locates the corresponding web
         element

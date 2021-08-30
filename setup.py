@@ -2,14 +2,15 @@ from setuptools import setup
 from setuptools import find_packages
 
 setup(
-    name="Companies' ESG metrics",
-    version='1.0.0',
+    name="Companies ESG metrics",
+    version='1.1',
     description='Package that allows you to find ESG ratings from Yahoo\
     Finance, MSCI, CSR Hub, S&P Global, SustainAnalytics. In addition,\
     financial information is also scraped from Yahoo Finance',
-    url='https://github.com/shweta-29/Sustainability_Company_Information.git',
+    url='https://github.com/shweta-29/Companies_ESG_Scraper.git',
+    download_url='https://github.com/shweta-29/Companies_ESG_Scraper/archive/refs/tags/v_01.tar.gz',
     author='Shweta Yadav',
     license='MIT',
     packages=find_packages(),
-    install_requires=['selenium']
+    install_requires=['selenium', 'pandas', 'tqdm', 'sqlalchemy']
 )

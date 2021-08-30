@@ -44,6 +44,7 @@ def append_dict(temp: str) -> str:
         temp = company
     return temp
 
+
 if __name__ == "__main__":
     # Read input companies dataset
     companies_filename = WebScraper._get_filename()
@@ -55,15 +56,15 @@ if __name__ == "__main__":
     URL = "https://www.sustainalytics.com/esg-ratings"
     bot = WebScraper(URL)
 
-    # Scrape the website. Extract company names and their respective ESG score and
-    #  store it in the dictionary
+    # Scrape the website. Extract company names and their respective ESG score
+    #  and store it in the dictionary
     temp = 0
     for i in tqdm(range(data_length)):
         san = {'SA_Company': [], 'SA_ESG_Risk': [], 'SA_Industry': []}
         # Starting the search by finding the search bar and searching for the
         #  company
-        search_bar = bot.send_request_to_search_bar(header_name,
-            df, i, xpath='//*[@id="searchInput"]')
+        search_bar = bot.send_request_to_search_bar(
+            header_name, df, i, xpath='//*[@id="searchInput"]')
 
         try:
             key = bot.find_element('.//div[@class="list-group-item"]')

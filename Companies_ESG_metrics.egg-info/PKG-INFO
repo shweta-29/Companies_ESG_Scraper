@@ -1,0 +1,11 @@
+Metadata-Version: 1.1
+Name: Companies-ESG-metrics
+Version: 1.0
+Summary: Package that allows you to find ESG ratings from Yahoo    Finance, MSCI, CSR Hub, S&P Global, SustainAnalytics. In addition,    financial information is also scraped from Yahoo Finance
+Home-page: https://github.com/shweta-29/Companies_ESG_Scraper.git
+Author: Shweta Yadav
+Author-email: UNKNOWN
+License: MIT
+Download-URL: https://github.com/shweta-29/Companies_ESG_Scraper/archive/refs/tags/v_01.tar.gz
+Description: UNKNOWN
+Platform: UNKNOWN
