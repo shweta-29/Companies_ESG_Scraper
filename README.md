@@ -11,18 +11,21 @@ An example dataset of Forbes 2021 2000 companies is provided with this package.
 Package structure:
 
 WebScraping 
-    - project
-        - esgscraper
-            - esgdata.py
-            - scraper.py
-            - csrhub.py
-            - snp_global.py
-            - msci.py
-            - sustainanalytics.py
-            - yahoo.py
 
-        - rds_uploader
-            - rds_module.py
+    - project
+
+        -- esgscraper
+
+            --- esgdata.py
+            --- scraper.py 
+            --- csrhub.py
+            --- snp_global.py
+            --- msci.py
+            --- sustainanalytics.py
+            --- yahoo.py
+
+        -- rds_uploader
+            --- rds_module.py
 
 Selenium is used to scrape all the websites. Below is the information of each of the .py files:
 
