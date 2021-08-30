@@ -36,50 +36,45 @@ def _append_dict() -> dict:
         csr['CSR_Company'].append(company.text)
 
     except NoSuchElementException:
-        print(f'Could not find company at location: {i}')
         bot.append_empty_values(csr)
     return csr
 
+if __name__ == "__main__":
+    # Read input companies dataset
+    companies_filename = WebScraper._get_filename()
+    header_name = WebScraper._get_headername()
+    df = pd.read_csv(companies_filename)
+    data_length = len(df)
 
-# Read input companies dataset
-companies_filename = WebScraper._get_filename()
-header_name = WebScraper._get_headername()
-df = pd.read_csv(companies_filename)
-data_length = len(df)
+    # Set up driver
+    URL = "https://www.csrhub.com/search/name/"
+    bot = WebScraper(URL)
 
-# Set up driver
-URL = "https://www.csrhub.com/search/name/"
-bot = WebScraper(URL)
+    # Accept cookies
+    cookies_xpath = '//*[@id="body-content-holder"]/div[2]/div/span[2]/button'
+    bot.accept_cookies(cookies_xpath)
 
-# Accept cookies
-cookies_xpath = '//*[@id="body-content-holder"]/div[2]/div/span[2]/button'
-bot.accept_cookies(cookies_xpath)
+    # Scrape the website. Extract company names and their respective CSR score
+    i = 0
+    progress_bar = tqdm(total=data_length)
+    while i < data_length:
+        csr = {'CSR_Company': [], 'CSR_Ratings': []}
+        delay = 2  # seconds
 
-# Scrape the website. Extract company names and their respective CSR score
-i = 0
-progress_bar = tqdm(total=data_length)
-while i < data_length:
-    csr = {'CSR_Company': [], 'CSR_Ratings': []}
-    delay = 2  # seconds
+        try:
+            search_bar = bot.send_request_to_search_bar(
+                header_name, df, i, xpath='//*[@id="search_company_names_0"]')
+            search_bar.send_keys(Keys.RETURN)
+            sleep(1)
+            csr = _append_dict()
+            # Save the data into a csv file
+            df1 = bot.convert_dict_to_csv(csr, 'csr_hub')
+            i += 1
+        # If no element found, the page is restarted
+        except NoSuchElementException:
+            bot = bot.restart_driver(cookies_xpath)
 
-    try:
-        search_bar = bot.send_request_to_search_bar(
-            header_name, df, i, xpath='//*[@id="search_company_names_0"]')
-        search_bar.send_keys(Keys.RETURN)
-        sleep(1)
-        csr = _append_dict()
-        # Save the data into a csv file
-        df1 = bot.convert_dict_to_csv(csr, 'csr_hub')
-        i += 1
-    # If no element found, the page is restarted
-    except NoSuchElementException:
-        print('Restarting the driver')
-        bot.driver.quit()
-        sleep(120)
-        bot = WebScraper(URL)
-        bot.accept_cookies(cookies_xpath)
+        sleep(0.1)
+        progress_bar.update(1)
 
-    sleep(0.1)
-    progress_bar.update(1)
-
-progress_bar.close()
+    progress_bar.close()

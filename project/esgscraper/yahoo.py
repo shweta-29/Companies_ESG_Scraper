@@ -155,64 +155,63 @@ def append_dict(temp: str):
     except NoSuchElementException:
         bot.append_empty_values(fin)
 
+if __name__ == "__main__":
+    # Read input companies dataset
+    companies_filename = WebScraper._get_filename()
+    header_name = WebScraper._get_headername()
+    df = pd.read_csv(companies_filename)
+    data_length = len(df)
 
-# Read input companies dataset
-companies_filename = WebScraper._get_filename()
-header_name = WebScraper._get_headername()
-df = pd.read_csv(companies_filename)
-data_length = len(df)
+    # Set up driver
+    URL = "https://finance.yahoo.com/lookup"
+    bot = WebScraper(URL)
 
-# Set up driver
-URL = "https://finance.yahoo.com/lookup"
-bot = WebScraper(URL)
+    # Accept cookies
+    cookies_xpath = '//*[@id="consent-page"]/div/div/div/form/div[2]/div[2]/button'
+    bot.accept_cookies(cookies_xpath)
 
-# Accept cookies
-cookies_xpath = '//*[@id="consent-page"]/div/div/div/form/div[2]/div[2]/button'
-bot.accept_cookies(cookies_xpath)
+    # Scrape the website. Extract company names and their respective CSR score
+    temp = 0
+    i = 0
+    progress_bar = tqdm(total=data_length)
+    while i < data_length:
+        if i > 0 and i % 100 == 0:
+            bot = bot.restart_driver(cookies_xpath)
+        fin = {'fin_Company': [], 'Market Cap': [], 'Trailing P/E': [],
+            'Price/Book (mrq)': [], 'Most Recent Quarter (mrq)': [],
+            'Profit Margin': [], 'Op_Margin': [], 'ROA': [], 'ROE': [],
+            'Diluted EPS': [], 'Operating_CashFlow': [],
+            'Total Debt/Equity (mrq)': [], 'PayoutRat': [], 'Stock Price': [],
+            'ESG': []}
+        Company = df.loc[i][header_name]
+        class_name = ' Bdrs(0) Bxsh(n)! Fz(s) Bxz(bb) D(ib) Bg(n) Pend(5px) Px(8px) Py(0) H(30px) Lh(30px) Bd O(n):f O(n):h Bdc($seperatorColor) Bdc($linkColor):f Bdc($c-fuji-punch-a):inv C($negativeColor):in M(0) Pstart(10px) Bxz(bb) Bgc(white) W(100%) H(32px)! Lh(32px)! Ff($yahooSansFinanceFont)'
+        try:
+            # Finding the search bar and searching for the company
+            xpath = f'//*[@class="{class_name}"]'
+            sleep(3)
+            bot.wait_element_to_load(xpath)
+            search_bar = bot.find_element(xpath)
+            bot.wait_element_to_load(xpath)
+            search_bar.clear()
+            search_bar = bot.find_element(xpath)
+            bot.wait_element_to_load(xpath)
+            search_bar.send_keys(Company)
+            sleep(5)
+            search_bar = bot.find_element(xpath)
+            bot.wait_element_to_load(xpath)
+            search_bar.send_keys(Keys.DOWN)
+            search_bar = bot.find_element(xpath)
+            search_bar.send_keys(Keys.RETURN)
+            sleep(5)
+            temp = append_dict(temp)
+            df1 = bot.convert_dict_to_csv(fin, 'YahooFinance')
+            i += 1
 
-# Scrape the website. Extract company names and their respective CSR score
-temp = 0
-i = 0
-progress_bar = tqdm(total=data_length)
-while i < data_length:
-    if i > 0 and i % 100 == 0:
-        bot = bot.restart_driver(cookies_xpath)
-    print(i)
-    fin = {'fin_Company': [], 'Market Cap': [], 'Trailing P/E': [],
-           'Price/Book (mrq)': [], 'Most Recent Quarter (mrq)': [],
-           'Profit Margin': [], 'Op_Margin': [], 'ROA': [], 'ROE': [],
-           'Diluted EPS': [], 'Operating_CashFlow': [],
-           'Total Debt/Equity (mrq)': [], 'PayoutRat': [], 'Stock Price': [],
-           'ESG': []}
-    Company = df.loc[i][header_name]
-    class_name = ' Bdrs(0) Bxsh(n)! Fz(s) Bxz(bb) D(ib) Bg(n) Pend(5px) Px(8px) Py(0) H(30px) Lh(30px) Bd O(n):f O(n):h Bdc($seperatorColor) Bdc($linkColor):f Bdc($c-fuji-punch-a):inv C($negativeColor):in M(0) Pstart(10px) Bxz(bb) Bgc(white) W(100%) H(32px)! Lh(32px)! Ff($yahooSansFinanceFont)'
-    try:
-        # Finding the search bar and searching for the company
-        xpath = f'//*[@class="{class_name}"]'
-        sleep(3)
-        bot.wait_element_to_load(xpath)
-        search_bar = bot.find_element(xpath)
-        bot.wait_element_to_load(xpath)
-        search_bar.clear()
-        search_bar = bot.find_element(xpath)
-        bot.wait_element_to_load(xpath)
-        search_bar.send_keys(Company)
-        sleep(5)
-        search_bar = bot.find_element(xpath)
-        bot.wait_element_to_load(xpath)
-        search_bar.send_keys(Keys.DOWN)
-        search_bar = bot.find_element(xpath)
-        search_bar.send_keys(Keys.RETURN)
-        sleep(5)
-        temp = append_dict(temp)
-        df1 = bot.convert_dict_to_csv(fin, 'YahooFinance')
-        i += 1
+        except NoSuchElementException:
+            # If the webpage changes, the driver is restarted
+            bot = bot.restart_driver(cookies_xpath)
 
-    except NoSuchElementException:
-        # If the webpage changes, the driver is restarted
-        bot = bot.restart_driver(cookies_xpath)
+        sleep(1)
+        progress_bar.update(1)
 
-    sleep(1)
-    progress_bar.update(1)
-
-progress_bar.close()
+    progress_bar.close()

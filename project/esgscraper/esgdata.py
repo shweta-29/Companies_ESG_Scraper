@@ -18,7 +18,8 @@ from which the information has to be scraped
 """
 from .scraper import WebScraper
 
-website_name = WebScraper._get_websitename()
-module = "project.esgscraper." + website_name
+if __name__ == "__main__":
+    website_name = WebScraper._get_websitename()
+    module = "project.esgscraper." + website_name
 
-__import__(module)
+    __import__(module)

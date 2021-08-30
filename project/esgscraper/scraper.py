@@ -92,7 +92,7 @@ class WebScraper():
         if website == '5':
             return 'sustainanalytics'
         else:
-            print('Enter a number between 1 to 5')
+            return print('Enter a number between 1 to 5')
 
     def wait_element_to_load(self, xpath: str):
         '''
