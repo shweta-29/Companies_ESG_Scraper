@@ -2,7 +2,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 setup(
-    name='Companies ESG Information',
+    name='Companies ESG metrics',
     version='0.0.1',
     description='Package that allows you to find ESG ratings from Yahoo\
     Finance, MSCI, CSR Hub, S&P Global, SustainAnalytics. In addition,\
@@ -11,5 +11,5 @@ setup(
     author='Shweta Yadav',
     license='MIT',
     packages=find_packages(),
-    install_requires=['selenium', 'pandas']
+    install_requires=['selenium']
 )
