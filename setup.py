@@ -2,8 +2,8 @@ from setuptools import setup
 from setuptools import find_packages
 
 setup(
-    name="Companies ESG metrics",
-    version='1.1',
+    name="Companies_ESG_metrics",
+    version='1.2',
     description='Package that allows you to find ESG ratings from Yahoo\
     Finance, MSCI, CSR Hub, S&P Global, SustainAnalytics. In addition,\
     financial information is also scraped from Yahoo Finance',

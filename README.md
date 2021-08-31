@@ -16,6 +16,7 @@ WebScraping
 
         -- esgscraper
 
+            --- __init__.py
             --- esgdata.py
             --- scraper.py 
             --- csrhub.py
@@ -25,7 +26,19 @@ WebScraping
             --- yahoo.py
 
         -- rds_uploader
+            --- __init__.py
             --- rds_module.py
+            
+    - tests
+    - Forbes.csv
+    - .gitignore
+    - LICENSE
+    - README.md
+    - setup.cfg
+    - setup.py
+
+
+
 
 Selenium is used to scrape all the websites. Below is the information of each of the .py files:
 
