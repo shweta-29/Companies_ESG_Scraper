@@ -1,4 +1,4 @@
-# Companies_Sustainability_Information
+# Companies ESG Scraper
 ![image](https://user-images.githubusercontent.com/86231288/131497638-3a32eceb-b610-455c-ac8e-6c11816fb856.png)
 
 
