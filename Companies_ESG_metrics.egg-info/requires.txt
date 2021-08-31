@@ -1,4 +1,0 @@
-selenium
-pandas
-tqdm
-sqlalchemy
