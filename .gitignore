@@ -13,3 +13,4 @@ Companies_ESG_metrics.egg-info
 CompaniesESGmetrics.egg-info
 dist
 build
+.DS_Store

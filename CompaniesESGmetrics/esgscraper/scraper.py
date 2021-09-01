@@ -23,7 +23,7 @@ class WebScraper():
         URL (str): The website URL.
     '''
 
-    def __init__(self, URL: str):
+    def __init__(self, URL: str, chrome_path):
         '''
         See help(scraper) for accurate signature
         '''
@@ -32,9 +32,21 @@ class WebScraper():
         options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        self.driver = webdriver.Chrome(options=options)
+        self.driver = webdriver.Chrome(
+            executable_path=chrome_path, options=options)
         self.driver.get(URL)
         sleep(2)
+
+    @staticmethod
+    def _get_chromedriverpath() -> str:
+        '''
+        This function asks the user for the filepath of the chromedriver
+
+        Returns:
+            str : The chromedriver path
+        '''
+        chrome_path = input('Please specify the chromedriver path : ')
+        return chrome_path
 
     @staticmethod
     def _get_filename() -> str:

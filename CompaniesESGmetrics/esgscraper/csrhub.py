@@ -19,6 +19,8 @@ from selenium.common.exceptions import NoSuchElementException
 from tqdm import tqdm
 from .scraper import WebScraper
 
+print('Hi')
+
 
 def _append_dict() -> dict:
     ''' Append the CSR dictionary with Company Name and its CSR score
@@ -41,6 +43,8 @@ def _append_dict() -> dict:
 
 
 # Read input companies dataset
+print('Hi 2')
+chrome_path = WebScraper._get_chromedriverpath()
 companies_filename = WebScraper._get_filename()
 header_name = WebScraper._get_headername()
 df = pd.read_csv(companies_filename)
@@ -48,7 +52,7 @@ data_length = len(df)
 
 # Set up driver
 URL = "https://www.csrhub.com/search/name/"
-bot = WebScraper(URL)
+bot = WebScraper(URL, chrome_path)
 
 # Accept cookies
 cookies_xpath = '//*[@id="body-content-holder"]/div[2]/div/span[2]/button'
