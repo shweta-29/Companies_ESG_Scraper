@@ -48,6 +48,7 @@ def _append_dict(temp: str) -> str:
 # Read input companies dataset
 companies_filename = WebScraper._get_filename()
 header_name = WebScraper._get_headername()
+export_path = WebScraper._get_exportpath()
 df = pd.read_csv(companies_filename)
 data_length = len(df)
 
@@ -82,4 +83,4 @@ for i in tqdm(range(data_length)):
         bot.append_empty_values(msci)
 
     # Save the data into a csv file
-    df1 = bot.convert_dict_to_csv(msci, 'MSCI')
+    df1 = bot.convert_dict_to_csv(msci, export_path)

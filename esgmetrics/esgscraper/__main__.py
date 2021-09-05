@@ -1,4 +1,4 @@
-""" ESG data Scrape
+"""
 
 This script allows the user to scrape the ESG, CSR ratings and financial
 metrics of the companies from the following websites: SustainAnalytics,
@@ -18,8 +18,4 @@ from which the information has to be scraped
 """
 from .scraper import WebScraper
 
-if __name__ == "__main__":
-    website_name = WebScraper._get_websitename()
-    module = "project.esgscraper." + website_name
-
-    __import__(module)
+WebScraper.get_esgdata()

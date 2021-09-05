@@ -4,8 +4,8 @@ from pathlib import Path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 setup(
-    name="CompaniesESGmetrics",
-    version='1.2.3',
+    name="ESGScraper",
+    version='1.0.0',
     description='Package that allows you to find ESG ratings from Yahoo\
     Finance, MSCI, CSR Hub, S&P Global, SustainAnalytics. In addition,\
     financial information is also scraped from Yahoo Finance',
@@ -17,5 +17,7 @@ setup(
     author_email='shweta.yadav2092@gmail.com',
     license='MIT',
     packages=find_packages(),
-    install_requires=['selenium', 'pandas', 'tqdm', 'sqlalchemy']
+    install_requires=['selenium', 'pandas', 'tqdm', 'sqlalchemy'],
+    include_package_data=True,
+    package_data={'': ['data/*.csv']}
 )

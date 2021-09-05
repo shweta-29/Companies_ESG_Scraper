@@ -2,7 +2,7 @@
 import unittest
 import pandas as pd
 
-from CompaniesESGmetrics.esgscraper.scraper import WebScraper
+from esgmetrics.esgscraper.scraper import WebScraper
 
 
 class ScraperTestCase(unittest.TestCase):

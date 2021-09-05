@@ -26,8 +26,9 @@ class RdsUploader:
 
     '''
 
-    def __init__(self, database_type: str, dbapi: str, endpoint: str, port:
-                 int, database: str, user: str, password: str):
+    # , database_type: str, dbapi: str, endpoint: str, port:
+    def __init__(self):
+        # int, database: str, user: str, password: str
         '''
         See help(RdsUploader) for accurate signature
         '''

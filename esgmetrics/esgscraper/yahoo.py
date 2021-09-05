@@ -159,6 +159,7 @@ def append_dict(temp: str):
 # Read input companies dataset
 companies_filename = WebScraper._get_filename()
 header_name = WebScraper._get_headername()
+export_path = WebScraper._get_exportpath()
 df = pd.read_csv(companies_filename)
 data_length = len(df)
 
@@ -204,7 +205,7 @@ while i < data_length:
         search_bar.send_keys(Keys.RETURN)
         sleep(5)
         temp = append_dict(temp)
-        df1 = bot.convert_dict_to_csv(fin, 'YahooFinance')
+        df1 = bot.convert_dict_to_csv(fin, export_path)
         i += 1
 
     except NoSuchElementException:

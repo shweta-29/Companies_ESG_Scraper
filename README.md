@@ -15,12 +15,12 @@ This package is for investors interested in Sustainable Finance. The package can
 
 WebScraping 
 
-    - CompaniesESGmetrics
+    - ESGmetrics
 
         -- esgscraper
 
             --- __init__.py
-            --- esgdata.py
+            --- __main__.py
             --- scraper.py 
             --- csrhub.py
             --- snp_global.py
@@ -42,9 +42,10 @@ WebScraping
 
 **How to use**
 
-1. Run esgdata.py. Enter the inputs.
-2. Wait for the output! You will notice a .csv file created that gets appended as new informatin is scraped 
- 
+1. Run the command "python -m esgmetrics.esgscraper" . 
+2. It asks for the following inputs: Website name (type a corresponding number), Input file path, Header name in the input file that contains companies name, output file path including the output file name, and Chromedriver path. Enter the inputs.
+3. Wait for the output! You will notice a .csv file created that gets appended as new informatin is scraped 
+4. To access the different functions used in the package, checkout the help documentation of scraper module 
 **Package details**
 
 ![image](https://user-images.githubusercontent.com/86231288/131498967-04673d9d-98f6-4a7d-bae2-aa6edff33e47.png)
@@ -52,10 +53,11 @@ WebScraping
 
 Selenium is used to scrape all the websites. Below is the information for each of the .py files:
 
-    1. esgdata.py: To begin, run this file. It will ask for these inputs: 
+    1. __main___.py: To begin, run this file. It will ask for these inputs: 
         a) Path of the file(.csv) that contains companies name
         b) Header name of the companies column
         c) Which website to scrape the data from: SustainAnalytics, S&P Global, CSR HUB, MSCI, Yahoo
+        d) Chromedriver path
 
     2. scraper.py This Python file serves as an input for all the other .py files. It has a Class that includes all
        the methods that are used commonly in all the .py files.

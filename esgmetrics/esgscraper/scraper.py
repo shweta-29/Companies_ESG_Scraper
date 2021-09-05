@@ -12,6 +12,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webelement import WebElement
 from time import sleep
 import os
+import pkg_resources
 
 
 class WebScraper():
@@ -23,7 +24,7 @@ class WebScraper():
         URL (str): The website URL.
     '''
 
-    def __init__(self, URL: str, chrome_path):
+    def __init__(self, URL: str):
         '''
         See help(scraper) for accurate signature
         '''
@@ -32,21 +33,22 @@ class WebScraper():
         options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+        self.chrome_path = input('Please specify the chromedriver path : ')
         self.driver = webdriver.Chrome(
-            executable_path=chrome_path, options=options)
+            executable_path=self.chrome_path, options=options)
         self.driver.get(URL)
         sleep(2)
 
-    @staticmethod
-    def _get_chromedriverpath() -> str:
+    @classmethod
+    def get_esgdata(cls):
         '''
-        This function asks the user for the filepath of the chromedriver
+        This function calls the _get_websitename() method and imports the\
+        corresponding module
+        '''
+        website_name = cls._get_websitename()
+        module = "esgmetrics.esgscraper." + website_name
 
-        Returns:
-            str : The chromedriver path
-        '''
-        chrome_path = input('Please specify the chromedriver path : ')
-        return chrome_path
+        __import__(module)
 
     @staticmethod
     def _get_filename() -> str:
@@ -57,24 +59,27 @@ class WebScraper():
         Returns:
             str : The input file path
         '''
-        companies_filename = input('Companies filename - Enter the filepath of a .csv file with company\
-        names. To run on example dataset(Forbes 2020 2000 list), enter 0  :')
+        companies_filename = input('Enter the filepath of a .csv file with'
+                                   + ' company names. To run on example'
+                                   + ' dataset(Forbes 2020 2000 companies'
+                                   + ' list), enter 0 : ')
         if companies_filename == '0':
-            return 'Forbes.csv'
+            return pkg_resources.resource_stream(__name__, 'data/Forbes.csv')
         else:
             return companies_filename
 
     @staticmethod
     def _get_headername() -> str:
         '''
-        This function asks the user for the name of the header in the .csv\
+        This function asks the user for the name of the header in the .csv
         file that lists companies name
 
         Returns:
             str : The input header name
         '''
-        companies_headername = input('Header Name - Enter the name of the header that contains the company\
-        names.To run on example dataset(Forbes 2020 2000 list), enter 0  :')
+        companies_headername = input(
+            'Enter the name of the header that contains the company names.To'
+            + ' run on example dataset(Forbes 2020 2000 list), enter 0  : ')
         if companies_headername == '0':
             return 'Name'
         else:
@@ -89,9 +94,10 @@ class WebScraper():
         Returns:
             str : website name
         '''
-        website = input('Which website to scrape the data from: MSCI (enter 1),\
-                        Yahoo Finance (enter 2), CSRHUB (enter 3), \
-                        S&P Global (enter 4), SustainAnalytics (enter 5) :')
+        website = input(
+            'Which website to scrape the data from: MSCI (enter 1),Yahoo'
+            + ' Finance (enter 2), CSRHUB (enter 3), S&P Global (enter 4)'
+            + ' , SustainAnalytics (enter 5) :')
         if website == '1':
             return 'msci'
         if website == '2':
@@ -104,6 +110,20 @@ class WebScraper():
             return 'sustainanalytics'
         else:
             return print('Enter a number between 1 to 5')
+
+    @staticmethod
+    def _get_exportpath() -> str:
+        '''
+        This function asks the user for the path plus output filename where
+        csv file is exported
+
+        Returns:
+            str : filepath
+        '''
+        export_path = input(
+            'Enter the path with output csv file name where output csv file is'
+            + ' to be exported. : ')
+        return export_path
 
     def wait_element_to_load(self, xpath: str):
         '''
@@ -139,24 +159,26 @@ class WebScraper():
         sleep(2)
 
     @staticmethod
-    def convert_dict_to_csv(dict_name: str, csv_name: str) -> pd.DataFrame:
+    def convert_dict_to_csv(dict_name: str, export_path: str) -> pd.DataFrame:
         '''
         This function converts the dictionary to a pandas dataframe and the
         latter is converted a csv file
 
         Args:
             dict_name (str): Name of the dictionary
-            name (str): Name to be given to the csv file
+            export_path (str) : Filepath including the outpule filename in
+            which csv file is to be exported
 
         Returns:
             pd.DataFrame: Pandas Dataframe generated from the dictionary
         '''
         df1 = pd.DataFrame.from_dict(dict_name)
         # If the file already exists, append the new data
-        if os.path.isfile(csv_name + '.csv'):
-            df1.to_csv(csv_name + '.csv', mode='a', header=False, index=False)
+        if os.path.isfile(export_path + '.csv'):
+            df1.to_csv(export_path + '.csv',
+                       mode='a', header=False, index=False)
         else:
-            df1.to_csv(csv_name + '.csv', index=False)
+            df1.to_csv(export_path + '.csv', index=False)
         return df1
 
     @staticmethod
@@ -201,9 +223,9 @@ class WebScraper():
             return self.driver.find_element_by_class_name(class_name)
         return None
 
-    def send_request_to_search_bar(self, header_name, df: pd.DataFrame, i: int, xpath: str
-                                   = None,
-                                   class_name: int = None) -> WebElement:
+    def send_request_to_search_bar(self, header_name, df: pd.DataFrame, i: int,
+                                   xpath: str = None, class_name: int =
+                                   None) -> WebElement:
         '''
         Given xpath or class name, this function locates the search bar
         and enters the company name
