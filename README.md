@@ -42,10 +42,11 @@ WebScraping
 
 **How to use**
 
-1. Run the command "python -m esgmetrics.esgscraper" . 
-2. It asks for the following inputs: Website name (type a corresponding number), Input file path, Header name in the input file that contains companies name, output file path including the output file name, and Chromedriver path. Enter the inputs.
-3. Wait for the output! You will notice a .csv file created that gets appended as new informatin is scraped 
-4. To access the different functions used in the package, checkout the help documentation of scraper module 
+1. Install the PIP package using "pip install ESGScraper==1.0.0"
+2. Run the command "python -m esgmetrics.esgscraper" . 
+3. It asks for the following inputs: Website name (type a corresponding number), Input file path, Header name in the input file that contains companies name, output file path including the output file name, and Chromedriver path. Enter the inputs.
+4. Wait for the output! You will notice a .csv file created that gets appended as new informatin is scraped 
+5. To access the different functions used in the package, checkout the help documentation of scraper module 
 **Package details**
 
 ![image](https://user-images.githubusercontent.com/86231288/131498967-04673d9d-98f6-4a7d-bae2-aa6edff33e47.png)
